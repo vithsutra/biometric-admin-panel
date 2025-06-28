@@ -12,45 +12,47 @@ import {
   SidebarMenuItem,
   SidebarRail,
 } from "@/components/ui/sidebar"
+import { comfortaa, inter, poppins } from "@/app/fonts"
 
-// This is sample data.
+
 const data = {
   versions: ["1.0.1", "1.1.0-alpha", "2.0.0-beta1"],
   navMain: [
     {
       title: "Biometric Dashboard",
-      url: "#",
       items: [
         {
           title: "Home",
-          url: "#",
+          url: "/dashboard/1",
         },
         {
           title: "User",
-          url: "#",
+          url: "/useraccess",
         },
       ],
     } 
   ],
 }
 
-export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
+export  function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
+  // const adminId = await params
+  // ,{params}:{params:{adminId:string}}
+
   return (
     <Sidebar {...props} className="flex ">
       <SidebarHeader className="flex pl-4 mt-5">
-      <h1 className="font-comfortaa font-bold text-xl text-[#4169E1]">Vithsutra</h1>
+      <h1 className={` ${inter.className} font-bold text-4xl text-[#4169E1]`}>Vithsutra</h1>
       </SidebarHeader>
-      <SidebarContent className="">
-        {/* We create a SidebarGroup for each parent. */}
+      <SidebarContent className={`${inter.className}`} >
         {data.navMain.map((item) => (
-          <SidebarGroup key={item.title}>
-            <SidebarGroupLabel >{item.title}</SidebarGroupLabel>
+          <SidebarGroup key={item.title} >
+            <SidebarGroupLabel className="text-md font-comfortaa">{item.title}</SidebarGroupLabel>
             <SidebarGroupContent>
-              <SidebarMenu>
+              <SidebarMenu className="mt-7 gap-y-3">
                 {item.items.map((item) => (
                   <SidebarMenuItem key={item.title}>
                     <SidebarMenuButton asChild >
-                      <a href={item.url}>{item.title}</a>
+                      <a href={item.url} className="text-xl tracking-[1.3] ">{item.title}</a>
                     </SidebarMenuButton>
                   </SidebarMenuItem>
                 ))}

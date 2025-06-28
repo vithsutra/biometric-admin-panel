@@ -1,6 +1,6 @@
 import axios from "axios";
 
-export function handelSubmit(username:FormDataEntryValue,password:FormDataEntryValue){
+export function handelSubmit(type:string,password:string){
     //  axios.post("https://biometric.http.vsensetech.in/admin/login",{
     //     name
     //  })
@@ -13,7 +13,5 @@ export function handelSubmit(username:FormDataEntryValue,password:FormDataEntryV
     //     console.log("There was in error")
     //     return false
     //  })
-   console.log(username,password)
-   return true
-   
+   console.log(type,password)
 }

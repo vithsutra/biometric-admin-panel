@@ -1,7 +1,17 @@
 "use client"
+
+import { useState } from "react"
 import axios from "axios"
 import { Trash2 } from "lucide-react"
 import { Button } from "@/components/ui/button"
+import {
+  Dialog,
+  DialogContent,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog"
 import {
   Table,
   TableBody,
@@ -10,38 +20,36 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table"
-import { useEffect, useState } from "react"
+import { DeleteMachineModal } from "./DeleteModal"
 
-export default function DataTable({id}:{id:string}) {
 
- 
-  var [data, setData] = useState([
+
+export default function DataTable() {
+  const [data, setData] = useState([
     { id: 1, name: "John Doe", email: "john@example.com", amount: 100 },
     { id: 2, name: "Jane Smith", email: "jane@example.com", amount: 200 },
     { id: 3, name: "Mike Johnson", email: "mike@example.com", amount: 150 },
   ])
-
-useEffect(()=>{
-        // axios.get("")
-        // .then((response) => {
-        //   setData((prevData) => [...prevData, ...response.data]) 
-        // })
-        // .catch((error) => {
-        //   console.error("Error fetching data:", error)
-        // })
-},[])
+  const [deleteId, setDeleteId] = useState<number | null>(null)
 
 
-  const handleDelete = (id:any) => {
-    const removedItem =data.filter((item) => item.id !== id)
-    setData(removedItem)
-
+  const handleDelete = async () => {
+    setData((prevData) => prevData.filter((item) => item.id !== deleteId))
+    setDeleteId(null)
+    // Optionally, send a delete request to the backend
+    // await axios.delete(`/api/delete/${deleteId}`)
   }
 
   return (
     <div className="w-full p-4">
+      {deleteId !== null && (
+        <DeleteMachineModal
+          onConfirm={handleDelete}
+          onCancel={() => setDeleteId(null)}
+        />
+      )}
       <div className="rounded-md border">
-        <Table>
+        <Table className="text-lg">
           <TableHeader>
             <TableRow>
               <TableHead>Name</TableHead>
@@ -58,10 +66,7 @@ useEffect(()=>{
                   <TableCell>{item.email}</TableCell>
                   <TableCell className="text-right">${item.amount}</TableCell>
                   <TableCell className="text-center">
-                    <Button
-                      variant="ghost"
-                      onClick={() => handleDelete(item.id)}
-                    >
+                    <Button variant="ghost" onClick={() => setDeleteId(item.id)}>
                       <Trash2 color="#c01c28" />
                     </Button>
                   </TableCell>
@@ -76,6 +81,7 @@ useEffect(()=>{
             )}
           </TableBody>
         </Table>
+        
       </div>
     </div>
   )

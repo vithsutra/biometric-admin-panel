@@ -33,12 +33,13 @@ export default  function Page({params}:{params:{adminId:string}}) {
   return (
     <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-x-12 gap-y-10 mt-10 mx-10">
          {colleges.map((college,index) => (
-                  <Card className="w-[250px] border-2 border-gray-400" key={index}>
+                  <Card className="w-[350px] py-10 border-2 border-gray-400" key={index}>
                     <CardHeader>
-                      <CardTitle>{college.user_name}</CardTitle>
+                      <CardTitle className="text-xl">{college.user_name}</CardTitle>
                     </CardHeader>
                     <CardFooter className="flex self-end">
-                      <InteractiveHoverButton className="text-[10px] p-2 h-8 w-24"><Link href={`/units/${college.id}`}>Hover Me</Link></InteractiveHoverButton>
+                    <Link href={`/units/${college.id}`}>
+                      <InteractiveHoverButton  className="text-[14px] p-2 h-12 w-28">Hover Me</InteractiveHoverButton></Link>
                     </CardFooter>
                   </Card>
           ))}       

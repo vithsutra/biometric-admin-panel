@@ -4,13 +4,14 @@ import { usePathname } from "next/navigation";
 import { SidebarProvider } from "@/components/ui/sidebar";
 import { AppSidebar } from "@/components/app-sidebar";
 import { PathFinder } from "./PathFinder";
+import { Toaster } from "sonner";
 
 
 export function LayoutWrapper({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
 
-  if (pathname === "/login") {
-    return <>{children}</>; // Skip layout for login page
+  if (pathname === "/login" ) {
+    return <>{children}</>; 
   }
 
   return (
@@ -20,8 +21,9 @@ export function LayoutWrapper({ children }: { children: React.ReactNode }) {
         <div className="w-full">
           <PathFinder />
           <main className="p-4">{children}</main>
+          <Toaster />
         </div>
-      </div>
+      </div>                                                                                                                  
     </SidebarProvider>
   );
 }
