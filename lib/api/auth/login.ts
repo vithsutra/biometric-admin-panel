@@ -8,19 +8,15 @@ export async function Login({
   username: FormDataEntryValue;
   password: FormDataEntryValue;
 }) {
-  console.log("came here")
+  console.log("came here");
   try {
     const response = await axios.post(`${secret}/admin/login`, {
       user_name: username as string,
       password: password as string,
-    },
-    {headers:{
-      "Content-Type": "application/json",
-    }}
-  )
-    return response.data
+    });
+    return response.data;
   } catch (error) {
-    console.error("Login failed:", error)
-    throw error 
+    console.error("Login failed:", error);
+    throw error;
   }
 }
