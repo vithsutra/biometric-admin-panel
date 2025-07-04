@@ -1,4 +1,4 @@
-import * as React from "react"
+import * as React from "react";
 
 import {
   Sidebar,
@@ -11,9 +11,8 @@ import {
   SidebarMenuButton,
   SidebarMenuItem,
   SidebarRail,
-} from "@/components/ui/sidebar"
-import { comfortaa, inter, poppins } from "@/app/fonts"
-
+} from "@/components/ui/sidebar";
+import { inter } from "@/app/fonts";
 
 const data = {
   versions: ["1.0.1", "1.1.0-alpha", "2.0.0-beta1"],
@@ -30,28 +29,32 @@ const data = {
           url: "/useraccess",
         },
       ],
-    } 
+    },
   ],
-}
+};
 
-export  function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
-
-
+export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
   return (
     <Sidebar {...props} className="flex ">
       <SidebarHeader className="flex pl-4 mt-5">
-      <h1 className={` ${inter.className} font-bold text-4xl text-[#4169E1]`}>Vithsutra</h1>
+        <h1 className={` ${inter.className} font-bold text-4xl text-[#4169E1]`}>
+          Vithsutra
+        </h1>
       </SidebarHeader>
-      <SidebarContent className={`${inter.className}`} >
+      <SidebarContent className={`${inter.className}`}>
         {data.navMain.map((item) => (
-          <SidebarGroup key={item.title} >
-            <SidebarGroupLabel className="text-md font-comfortaa">{item.title}</SidebarGroupLabel>
+          <SidebarGroup key={item.title}>
+            <SidebarGroupLabel className="text-md font-comfortaa">
+              {item.title}
+            </SidebarGroupLabel>
             <SidebarGroupContent>
               <SidebarMenu className="mt-7 gap-y-3">
                 {item.items.map((item) => (
                   <SidebarMenuItem key={item.title}>
-                    <SidebarMenuButton asChild >
-                      <a href={item.url} className="text-xl tracking-[1.3] ">{item.title}</a>
+                    <SidebarMenuButton asChild>
+                      <a href={item.url} className="text-xl tracking-[1.3] ">
+                        {item.title}
+                      </a>
                     </SidebarMenuButton>
                   </SidebarMenuItem>
                 ))}
@@ -62,5 +65,5 @@ export  function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) 
       </SidebarContent>
       <SidebarRail />
     </Sidebar>
-  )
+  );
 }

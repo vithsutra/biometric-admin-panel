@@ -34,6 +34,7 @@ export function LoginForm({
         toast.error(result.error || "Invalid Credentials");
       }
     } catch (error) {
+      console.log(error);
       toast.error("Invalid Credentials");
     } finally {
       setDisabled(false);

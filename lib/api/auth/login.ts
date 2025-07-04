@@ -1,11 +1,6 @@
 import { secret } from "@/lib/utils";
 import axios from "axios";
 
-interface LoginResponse {
-  message: string;
-  token: string;
-}
-
 export async function Login({
   username,
   password,
@@ -20,7 +15,7 @@ export async function Login({
     });
 
     return {
-      success:"true",
+      success: "true",
       data: response.data,
     };
   } catch (error: any) {

@@ -1,7 +1,6 @@
 "use client";
 
-import axios from "axios";
-import { use, useEffect, useState } from "react";
+import { useState } from "react";
 import {
   Select,
   SelectContent,
@@ -101,7 +100,6 @@ export function UserAccessForm({
           </Select>
         </div>
 
-        {/* Password Input */}
         <div className="grid grid-cols-4 items-center gap-4">
           <Label htmlFor="password" className="text-right">
             Password

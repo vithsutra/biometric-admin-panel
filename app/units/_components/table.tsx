@@ -29,7 +29,6 @@ export default function DataTable(id: { id: string }) {
 
   const handleDelete = async () => {
     //@ts-ignore
-
     if (deleteId) {
       const response = await deleteUnit(deleteId);
       if (response.success) {

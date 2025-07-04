@@ -36,6 +36,7 @@ export function UserAddForm() {
         toast("Failed to create user");
       }
     } catch (error) {
+      console.log(error);
       toast("Failed to create user");
     } finally {
       setDisabled(false);

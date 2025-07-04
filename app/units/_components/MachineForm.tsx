@@ -13,7 +13,6 @@ import {
 
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Plus } from "lucide-react";
 import { useState } from "react";
 import { addUnit } from "@/lib/api/panel/addUnit";
 import { toast } from "sonner";
@@ -36,6 +35,7 @@ export function MachineAddForm({ userId }: { userId: string }) {
         toast("Failed to add machine");
       }
     } catch (error) {
+      console.log(error);
       toast("Failed to add machine");
     } finally {
       setIsOpen(false);
