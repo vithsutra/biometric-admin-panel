@@ -6,28 +6,37 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Login } from "@/lib/api/auth/login";
 import { toast } from "sonner";
-import useAuthToken from "@/lib/token/decode";
 import { useRouter } from "next/navigation";
+import { storeToken } from "@/lib/token/storeToken";
+import { useState } from "react";
 
 export function LoginForm({
   className,
   ...props
 }: React.ComponentProps<"form">) {
   const router = useRouter();
-  const { decodedToken } = useAuthToken();
+  const [disabled, setDisabled] = useState(false);
 
   const handleFormSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
+
     const formData = new FormData(event.currentTarget);
     const username = formData.get("username") || "";
     const password = formData.get("password") || "";
-    
-    console.log(username, password);
-    const data = await Login({ username, password });
-    console.log(data);
-    if (data.message === "login successfull") {
-      toast.success("Login Successful");
-      router.push(`/dashboard/${decodedToken?.id}`);
+    try {
+      setDisabled(true);
+      const result = await Login({ username, password });
+      if (result.success) {
+        storeToken(result?.data?.token);
+        toast.success("Login Successful");
+        router.push("/dashboard");
+      } else {
+        toast.error(result.error || "Invalid Credentials");
+      }
+    } catch (error) {
+      toast.error("Invalid Credentials");
+    } finally {
+      setDisabled(false);
     }
   };
 
@@ -73,6 +82,7 @@ export function LoginForm({
         <Button
           type="submit"
           className="w-full text-lg font-semibold bg-[#4169E1] hover:bg-[#4169E1]/90 "
+          disabled={disabled}
         >
           Login
         </Button>

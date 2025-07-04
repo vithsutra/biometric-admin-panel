@@ -1,20 +1,16 @@
-"use client"
+"use client";
 
-import { useState } from "react"
-import { UserAddForm } from "../dashboard/_components/UserForm"
-import { usePathname } from "next/navigation"
-import { MachineAddForm } from "../units/_components/MachineForm"
-
+import { UserAddForm } from "../dashboard/_components/UserForm";
+import { useParams, usePathname } from "next/navigation";
+import { MachineAddForm } from "../units/_components/MachineForm";
 
 export function UserAddButton() {
-  const [isOpen, setIsOpen] = useState(false)
-  const pathname = usePathname()
+  const pathname = usePathname();
+  const { id } = useParams<{ id: string }>();
 
   if (pathname.startsWith("/units")) {
-    return <MachineAddForm />
+    return <MachineAddForm userId={id as string} />;
+  } else if (pathname.startsWith("/dashboard")) {
+    return <UserAddForm />;
   }
-  else if(pathname.startsWith("/dashboard")){
-  return <UserAddForm />
-  }
-  
 }

@@ -1,7 +1,7 @@
 "use client";
 
 import axios from "axios";
-import { useEffect, useState } from "react";
+import { use, useEffect, useState } from "react";
 import {
   Select,
   SelectContent,
@@ -15,35 +15,47 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { cn } from "@/lib/utils";
-import { handelSubmit } from "../utils/handlesubmit";
 import { toast } from "sonner";
+import { useUsers } from "@/hooks/getUsers";
+import { userAccess } from "@/lib/api/panel/userAccess";
+import useAuthToken from "@/lib/token/decode";
 
 export function UserAccessForm({
   className,
   ...props
 }: React.ComponentProps<"form">) {
   const [password, setPassword] = useState("");
-  const [confirmpassword, setConfirmPassword] = useState("");
-  const [type, setType] = useState<string>(""); // selected user
-  const [users, setUsers] = useState<{ id: string; name: string }[]>([
-    { id: "1", name: "John" },
-    { id: "2", name: "Alice" },
-  ]);
+  const [userId, setUserId] = useState<string>("");
+  const [type, setType] = useState<string>("");
+  const { authToken } = useAuthToken();
 
- 
+  const { users, loading } = useUsers();
   const handleFormSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-
-    if (!type || !password) {
-      console.log("Username and password are required");
-      return;
-    }else if(password !== confirmpassword){
-        toast.error("Passwords do not match");
-        return;
-    }
-
-    const status = await handelSubmit(type, password);
+    if (authToken)
+      try {
+        const response = await userAccess(password, userId, authToken);
+        if (response.success) {
+          toast("Access Granted");
+        } else {
+          toast("Failed to grant access");
+        }
+      } catch (error) {
+        toast("Failed to grant access");
+      }
   };
+
+  if (loading) {
+    return (
+      <div className="flex items-center justify-center  w-full">
+        <div className="flex flex-row gap-2">
+          <div className="w-4 h-4 rounded-full bg-blue-700 animate-bounce"></div>
+          <div className="w-4 h-4 rounded-full bg-blue-700 animate-bounce [animation-delay:-.3s]"></div>
+          <div className="w-4 h-4 rounded-full bg-blue-700 animate-bounce [animation-delay:-.5s]"></div>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <form
@@ -56,7 +68,6 @@ export function UserAccessForm({
         <p className="text-muted-foreground text-md">Select your user</p>
       </div>
       <div className="grid gap-4 py-4">
-        {/* User Selection */}
         <div className="grid grid-cols-4 items-center gap-4">
           <Label htmlFor="username" className="text-right">
             Select User
@@ -69,9 +80,15 @@ export function UserAccessForm({
               <SelectGroup>
                 <SelectLabel>Users</SelectLabel>
                 {users.length > 0 ? (
-                  users.map((user) => (
-                    <SelectItem key={user.id} value={user.id}>
-                      {user.name}
+                  users.map((user: any) => (
+                    <SelectItem
+                      key={user.unit_id}
+                      value={user.user_name}
+                      onClick={() => {
+                        setUserId(user.user_id);
+                      }}
+                    >
+                      {user.user_name}
                     </SelectItem>
                   ))
                 ) : (
@@ -98,24 +115,9 @@ export function UserAccessForm({
             required
           />
         </div>
-
-        <div className="grid grid-cols-4 items-center gap-4">
-          <Label htmlFor="password" className="text-right">
-            Confirm Password
-          </Label>
-          <Input
-            id="password"
-            type="password"
-            value={confirmpassword}
-            onChange={(e) => setConfirmPassword(e.target.value)}
-            className="col-span-3"
-            required
-          />
-        </div>
       </div>
 
-      {/* Submit Button */}
-      <Button type="submit" className="w-full bg-blue-600">
+      <Button type="submit" className="w-full bg-blue-600 hover:bg-blue-500">
         Submit
       </Button>
     </form>

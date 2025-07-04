@@ -1,30 +1,24 @@
 import { secret } from "@/lib/utils";
 import axios from "axios";
 
-interface LoginResponse {
-  message: string;
-  token: string;
-}
-
-export async function Login({
-  username,
-  password,
-}: {
-  username: FormDataEntryValue;
-  password: FormDataEntryValue;
-}) {
+export async function addUser(
+  username: string,
+  password: string,
+  email: string
+) {
   try {
-    const response = await axios.post(`${secret}/admin/login`, {
-      user_name: username as string,
-      password: password as string,
+    const response = await axios.post(`${secret}/user/register`, {
+      user_name: username,
+      password: password,
+      email: email,
     });
 
     return {
-      success:"true",
+      success: true,
       data: response.data,
     };
   } catch (error: any) {
-    console.error("Login failed:", error);
+    console.error("addUser failed:", error);
 
     if (axios.isAxiosError(error)) {
       return {

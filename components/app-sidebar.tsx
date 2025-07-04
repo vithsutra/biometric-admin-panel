@@ -23,7 +23,7 @@ const data = {
       items: [
         {
           title: "Home",
-          url: "/dashboard/1",
+          url: "/dashboard",
         },
         {
           title: "User",
@@ -35,8 +35,7 @@ const data = {
 }
 
 export  function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
-  // const adminId = await params
-  // ,{params}:{params:{adminId:string}}
+
 
   return (
     <Sidebar {...props} className="flex ">
